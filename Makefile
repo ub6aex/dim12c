@@ -1,4 +1,4 @@
-PRJ_NAME   = f030test
+PRJ_NAME   = dim12c
 SRCDIR     = src
 BUILD_DIR  = build
 SRC        = $(wildcard $(SRCDIR)/*.c)

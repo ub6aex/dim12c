@@ -1,13 +1,30 @@
 #include "stm32f0xx.h"
+#include "rcc-init.h"
+#include "gpio.h"
+#include "tim.h"
+#include "usart.h"
+#include "stm32_tm1637.h"
 
-int main(void){
-	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
-	GPIOA->MODER |= GPIO_MODER_MODER4_0;
+int main(void) {
+    USART1_Init();
+    USART1_Send_String("\n\rStarting");
+    rccInit();
+    gpioInit();
+    timerInit();
+    tm1637Init();
+    tm1637SetBrightness(1);
 
-	for(;;){
-        GPIOA->BSRR = GPIO_BSRR_BR_4;
-        for(int i = 0; i < 60000; i++);
-        GPIOA->BSRR = GPIO_BSRR_BS_4;
-        for(int i = 0; i < 60000; i++);
+    uint32_t ctr = 0;
+
+	for(;;) {
+        status_led_on();
+        tm1637DisplayDecimal(ctr++, 0);
+        USART1_Send_String("\n\rA");
+        delay_ms(1000);
+
+        status_led_off();
+        tm1637DisplayDecimal(ctr++, 0);
+        USART1_Send_String("-");
+        delay_ms(1000);
 	}
 }

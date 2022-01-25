@@ -3,7 +3,8 @@
         {
             "name": "STM32F0",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/inc"
             ],
             "defines": [
                 "_DEBUG",
