@@ -1,4 +1,5 @@
 #include "stm32f0xx.h"
+#include "wdg.h"
 #include "rcc-init.h"
 #include "gpio.h"
 #include "tim.h"
@@ -6,6 +7,7 @@
 #include "tm1637.h"
 
 int main(void) {
+    WDGinit(2000);
     rccInit();
     gpioInit();
     timerInit();
@@ -18,5 +20,6 @@ int main(void) {
 
 	for(;;) {
         tm1637DisplayDecimal(dmxBuf[11], 0);
+        WDGreset();
 	}
 }
