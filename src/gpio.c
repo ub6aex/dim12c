@@ -4,6 +4,7 @@
 void gpioInit(void) {
 	RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
 	GPIOA->MODER |= GPIO_MODER_MODER4_0;
+	status_led_off();
 }
 
 void status_led_on(void) {

@@ -1,6 +1,5 @@
 #include "stm32f0xx.h"
 #include "rcc-init.h"
-#include "usart.h"
 
 void rccInit(void)
 {
@@ -50,7 +49,8 @@ void rccInit(void)
 		while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS) != (uint32_t)0x08) {
 		} 
 	}  else {
-		USART1_Send_String("\n\rExternal osc init fail, working from internal 8MHz HSI");
+		for(;;) {
+			// rcc init failed. Wait for WDG reset.
+		};
 	}
-
 }

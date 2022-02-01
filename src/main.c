@@ -3,28 +3,20 @@
 #include "gpio.h"
 #include "tim.h"
 #include "usart.h"
-#include "stm32_tm1637.h"
+#include "tm1637.h"
 
 int main(void) {
-    USART1_Init();
-    USART1_Send_String("\n\rStarting");
     rccInit();
     gpioInit();
     timerInit();
     tm1637Init();
     tm1637SetBrightness(1);
+    USART1_Init();
 
-    uint32_t ctr = 0;
+    uint8_t *dmxBuf = get_Dmx_Bufer_ptr();
+    set_Dmx_Address(1);
 
 	for(;;) {
-        status_led_on();
-        tm1637DisplayDecimal(ctr++, 0);
-        USART1_Send_String("\n\rA");
-        delay_ms(1000);
-
-        status_led_off();
-        tm1637DisplayDecimal(ctr++, 0);
-        USART1_Send_String("-");
-        delay_ms(1000);
+        tm1637DisplayDecimal(dmxBuf[11], 0);
 	}
 }

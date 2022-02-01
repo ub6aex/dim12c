@@ -1,5 +1,5 @@
-#ifndef __STM32_tm1637_H
-#define __STM32_tm1637_H
+#ifndef _TM1637_H
+#define _TM1637_H
 
 #include "stm32f0xx.h"
 
