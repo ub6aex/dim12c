@@ -3,6 +3,7 @@
 #include "rcc-init.h"
 #include "gpio.h"
 #include "tim.h"
+#include "flash.h"
 #include "usart.h"
 #include "tm1637.h"
 
@@ -12,14 +13,16 @@ int main(void) {
     gpioInit();
     timerInit();
     tm1637Init();
-    tm1637SetBrightness(1);
+    tm1637SetBrightness(2);
     USART1_Init();
 
+    set_Dmx_Address(FLASH_Read_One());
     uint8_t *dmxBuf = get_Dmx_Bufer_ptr();
-    set_Dmx_Address(1);
+
+    // FLASH_Write_One(5);
 
 	for(;;) {
-        tm1637DisplayDecimal(dmxBuf[11], 0);
+        tm1637DisplayDecimal(dmxBuf[0], 0);
         WDGreset();
 	}
 }
