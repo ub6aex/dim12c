@@ -14,27 +14,27 @@ enum DMX_STATES {
 enum DMX_STATES dmxState; // current DMX reception state
 
 void USART1_Init() {
-	//PINs init
+    //PINs init
     RCC->AHBENR |= RCC_AHBENR_GPIOAEN; // port A enable
 
     // RX
-	GPIOA->MODER &= ~GPIO_MODER_MODER3_0;
-	GPIOA->MODER |= GPIO_MODER_MODER3_1;
+    GPIOA->MODER &= ~GPIO_MODER_MODER3_0;
+    GPIOA->MODER |= GPIO_MODER_MODER3_1;
 
     // TX
-	GPIOA->MODER &= ~GPIO_MODER_MODER2_0;
-	GPIOA->MODER |= GPIO_MODER_MODER2_1;
+    GPIOA->MODER &= ~GPIO_MODER_MODER2_0;
+    GPIOA->MODER |= GPIO_MODER_MODER2_1;
 
-	// AF1 for USART1 signals
+    // AF1 for USART1 signals
     GPIOA->AFR[0] = (GPIOA->AFR[0] &~ (GPIO_AFRL_AFRL2 | GPIO_AFRL_AFRL3)) | (1 << (2 * 4)) | (1 << (3 * 4));
 
-	// HSI clock as USART1 clock
-	RCC->CFGR3 |= RCC_CFGR3_USART1SW;
+    // HSI clock as USART1 clock
+    RCC->CFGR3 |= RCC_CFGR3_USART1SW;
 
     // Enable the peripheral clock USART1
     RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
 
-	// baudrate 250kbs
+    // baudrate 250kbs
     USART1->BRR = 8*1000000/250000;
 
     // 2 stop bits
@@ -71,12 +71,12 @@ void USART1_IRQHandler()
 {
     USART1->CR1 &= ~USART_CR1_RXNEIE; // receive interrupt disable 
 
-	uint8_t overrunError = USART1->ISR & USART_ISR_ORE;
+    uint8_t overrunError = USART1->ISR & USART_ISR_ORE;
     if (overrunError) {
         dmxState = IDLE;
         USART1->ICR |= USART_ICR_ORECF; // clear ORE
     } else if (USART1->ISR & USART_ISR_RXNE) {
-    	uint8_t byte = (uint8_t)(USART1->RDR); // catch data from RDR register to enable reception of the next byte
+        uint8_t byte = (uint8_t)(USART1->RDR); // catch data from RDR register to enable reception of the next byte
         uint8_t framingError = USART1->ISR & USART_ISR_FE;
         if (framingError) {
             if (byte == 0) { // it's a BREAK
@@ -113,7 +113,7 @@ void USART1_IRQHandler()
 void USART1_Send_String(char *pucString) {
     while(*pucString!='\0') {
         USART1_Send_Byte(*pucString);
-	    pucString++;
+        pucString++;
     }
 }
 

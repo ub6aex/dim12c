@@ -6,7 +6,6 @@
 
 void USART1_Init();
 void USART1_Send_Byte(unsigned char ucSend_Data);
-// uint8_t USART1_Receive_Byte(void);
 void USART1_Send_String(char *pucString);
 void USART1_Send_uInt(uint32_t number);
 uint8_t* get_Dmx_Bufer_ptr(void);
